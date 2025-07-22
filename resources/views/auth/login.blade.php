@@ -6,8 +6,8 @@
         <div class="col-md-7 mx-auto">
             <div class="mb-0 border-0 p-md-5 p-lg-0 p-4">
                 <div class="mb-4 p-0">
-                    <a href="{{ route('any', 'index') }}" class="auth-logo">
-                        <img src="/images/logo-dark.png" alt="logo-dark" class="mx-auto" height="28" />
+                    <a href="{{ route('home') }}" class="auth-logo">
+                        <img src="/images/logo-sm.png" alt="logo-dark" class="mx-auto" height="50" />
                     </a>
                 </div>
 
@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <a class='text-muted fs-14' href='{{ route('second', [ 'auth' , 'recoverpw']) }}'>Forgot password?</a>                             
+                                <a class='text-muted fs-14' href='{{ route('recover.password') }}'>Forgot password?</a>                             
                             </div>
                         </div>
 
@@ -54,7 +54,7 @@
                     <div class="saprator my-4"><span>or sign in with</span></div>
         
                     <div class="text-center text-muted mb-4">
-                        <p class="mb-0">Don't have an account ?<a class='text-primary ms-2 fw-medium' href='{{ route('second', [ 'auth' , 'register']) }}'>Sign up</a></p>
+                        <p class="mb-0">Don't have an account ?<a class='text-primary ms-2 fw-medium' href='{{ route('register') }}'>Sign up</a></p>
                     </div>
 
                     <!-- <div class="row">
@@ -95,7 +95,7 @@
 <div class="col-xl-7">
     <div class="account-page-bg p-md-5 p-4">
         <div class="text-center">
-            <h3 class="text-dark mb-3 pera-title">Quick, Effective, and Productive Admin Dashboard</h3>
+            <h3 class="text-dark mb-3 pera-title">GAME DAY VALET, Admin Panel</h3>
             <div class="auth-image">
                 <img src="/images/authentication.svg" class="mx-auto img-fluid"  alt="images">
             </div>

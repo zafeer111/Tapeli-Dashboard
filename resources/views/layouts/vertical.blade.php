@@ -4,6 +4,7 @@
     @include('layouts.partials/title-meta', ['title' => $title])
     @yield('css')
     @include('layouts.partials/head-css')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body data-menu-color="light" data-sidebar="default" @yield('body') >

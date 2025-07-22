@@ -6,8 +6,8 @@
         <div class="col-md-7 mx-auto">
             <div class="mb-0 border-0 p-md-5 p-lg-0 p-4">
                 <div class="mb-4 p-0">
-                    <a href="{{ route('any', 'index') }}" class="auth-logo">
-                        <img src="/images/logo-dark.png" alt="logo-dark" class="mx-auto" height="28"/>
+                    <a href="{{ route('home') }}" class="auth-logo">
+                        <img src="/images/logo-sm.png" alt="logo-dark" class="mx-auto" height="50"/>
                     </a>
                 </div>
 
@@ -17,17 +17,22 @@
 
                         <div class="form-group mb-3">
                             <label for="username" class="form-label">Username</label>
-                            <input class="form-control" name="username" type="text" id="username" required="" placeholder="Enter your Username" value="test">
+                            <input class="form-control" name="name" type="text" id="username" required="" placeholder="Enter your Username" value="test">
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="emailaddress" class="form-label">Email address</label>
-                            <input class="form-control" type="email" id="emailaddress" required="" placeholder="Enter your email" value="demo@user.com">
+                            <input class="form-control" name="email" type="email" id="emailaddress" required="" placeholder="Enter your email" value="demo@user.com">
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input class="form-control" type="password" required="" id="password" placeholder="Enter your password" value="password">
+                            <input class="form-control" name="password" type="password" required="" id="password" placeholder="Enter your password" value="password">
+                        </div>
+                      
+                        <div class="form-group mb-3">
+                            <label for="confirm-password" class="form-label">Confirm Password</label>
+                            <input class="form-control" name="password_confirmation" type="password" required="" id="confirm-password" placeholder="Enter your confirm password" value="password">
                         </div>
 
                         <div class="form-group d-flex mb-3">
@@ -51,10 +56,10 @@
                     <div class="saprator my-4"><span>or sign in with</span></div>
 
                     <div class="text-center text-muted mb-4">
-                        <p class="mb-0">Already have an account ?<a class='text-primary ms-2 fw-medium' href='{{ route('second', [ 'auth' , 'login']) }}'>Login here</a></p>
+                        <p class="mb-0">Already have an account ?<a class='text-primary ms-2 fw-medium' href='{{ route('login') }}'>Login here</a></p>
                     </div>
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-12">
                             <a class="btn text-dark border fw-normal d-flex align-items-center justify-content-center mb-3"> 
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48" class="me-2">
@@ -82,7 +87,7 @@
                                 <span>Sign in with Apple</span>
                             </a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
             </div>
@@ -93,7 +98,7 @@
 <div class="col-xl-7">
     <div class="account-page-bg p-md-5 p-4">
         <div class="text-center">
-            <h3 class="text-dark mb-3 pera-title">Quick, Effective, and Productive With Tapeli Admin Dashboard</h3>
+            <h3 class="text-dark mb-3 pera-title">GAME DAY VALET, Admin Panel</h3>
             <div class="auth-image">
                 <img src="/images/authentication.svg" class="mx-auto img-fluid"  alt="images">
             </div>
