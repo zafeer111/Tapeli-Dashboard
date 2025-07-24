@@ -25,7 +25,10 @@ class AuthController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
+            'address' => $request->input('address') ?? null,
         ]);
+        $user->referral_code = strtoupper('GDV' . Str::random(4));
+        $user->save();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -35,6 +38,7 @@ class AuthController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'referral_code' => $user->referral_code,
             ],
             'token' => $token,
         ], 201);
@@ -58,6 +62,8 @@ class AuthController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'referral_code' => $user->referral_code,
+                'address' => $user->address,
             ],
             'token' => $token,
         ], 200);
@@ -79,6 +85,7 @@ class AuthController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'referral_code' => $user->referral_code,
                 'roles' => $user->getRoleNames(),
                 'permissions' => $user->getAllPermissions()->pluck('name'),
             ],
@@ -164,6 +171,7 @@ class AuthController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
+                    'referral_code' => $user->referral_code,
                 ],
                 'token' => $token,
             ], 200);
@@ -188,6 +196,9 @@ class AuthController extends Controller
                 ]
             );
 
+            $user->referral_code = strtoupper('GDV' . Str::random(4));
+            $user->save();
+
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
@@ -196,6 +207,7 @@ class AuthController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
+                    'referral_code' => $user->referral_code,
                 ],
                 'token' => $token,
             ], 200);
@@ -236,6 +248,9 @@ class AuthController extends Controller
                     'password' => Hash::make(Str::random(20)),
                 ]
             );
+            
+            $user->referral_code = strtoupper('GDV' . Str::random(4));
+            $user->save();
 
             $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -245,6 +260,7 @@ class AuthController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
+                    'referral_code' => $user->referral_code,
                 ],
                 'token' => $token,
             ], 200);
@@ -277,6 +293,7 @@ class AuthController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
+                    'referral_code' => $user->referral_code,
                 ],
                 'token' => $token,
             ], 200);

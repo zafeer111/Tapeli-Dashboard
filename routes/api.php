@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BundleController;
+use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RentalController;
@@ -39,38 +40,44 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Tournaments Module
     Route::get('/tournaments', [TournamentController::class, 'index']);
-    Route::post('/tournaments', [TournamentController::class, 'store'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
-    Route::put('/tournaments/{id}', [TournamentController::class, 'update'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
-    Route::delete('/tournaments/{id}', [TournamentController::class, 'destroy'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
+    Route::post('/tournaments', [TournamentController::class, 'store']);
+    Route::put('/tournaments/{id}', [TournamentController::class, 'update']);
+    Route::delete('/tournaments/{id}', [TournamentController::class, 'destroy']);
 
 
     // Sports Module
     Route::get('/sports', [SportController::class, 'index']);
-    Route::post('/sports', [SportController::class, 'store'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
-    Route::put('/sports/{id}', [SportController::class, 'update'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
-    Route::delete('/sports/{id}', [SportController::class, 'destroy'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
+    Route::post('/sports', [SportController::class, 'store']);
+    Route::put('/sports/{id}', [SportController::class, 'update']);
+    Route::delete('/sports/{id}', [SportController::class, 'destroy']);
     Route::get('/sports/{id}/tournaments', [SportController::class, 'tournaments']);
 
 
     // Items Module
     Route::get('/items', [ItemController::class, 'index']);
-    Route::post('/items', [ItemController::class, 'store'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
-    Route::put('/items/{id}', [ItemController::class, 'update'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
-    Route::delete('/items/{id}', [ItemController::class, 'destroy'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
+    Route::post('/items', [ItemController::class, 'store']);
+    Route::put('/items/{id}', [ItemController::class, 'update']);
+    Route::delete('/items/{id}', [ItemController::class, 'destroy']);
 
 
     // Bundle Module
     Route::get('/bundles', [BundleController::class, 'index']);
-    Route::post('/bundles', [BundleController::class, 'store'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
-    Route::put('/bundles/{id}', [BundleController::class, 'update'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
-    Route::delete('/bundles/{id}', [BundleController::class, 'destroy'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
+    Route::post('/bundles', [BundleController::class, 'store']);
+    Route::put('/bundles/{id}', [BundleController::class, 'update']);
+    Route::delete('/bundles/{id}', [BundleController::class, 'destroy']);
 
 
     // Rental Module
     Route::get('/rentals', [RentalController::class, 'index']);
-    Route::post('/rentals', [RentalController::class, 'store'])->middleware('can:' . Permission::USER->value);
-    Route::put('/rentals/{id}', [RentalController::class, 'update'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
-    Route::delete('/rentals/{id}', [RentalController::class, 'destroy'])->middleware('can:' . Permission::SUPER_ADMIN->value . ',' . Permission::MANAGER->value);
+    Route::get('/rentals/user', [RentalController::class, 'userRentals']);
+    Route::post('/rentals', [RentalController::class, 'store']);
+    Route::put('/rentals/{id}', [RentalController::class, 'update']);
+    Route::delete('/rentals/{id}', [RentalController::class, 'destroy']);
+
+
+    // Rental Module
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/favorites/toggle', [FavoriteController::class, 'toggle']);
 });
 
 

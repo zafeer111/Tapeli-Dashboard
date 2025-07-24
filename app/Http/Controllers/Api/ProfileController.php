@@ -14,21 +14,27 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'sometimes|string|min:8|confirmed',
+            'name' => 'nullable|string|max:255',
+            'contact_number' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($request->has('name')) {
             $user->name = $request->name;
         }
 
-        if ($request->has('email')) {
-            $user->email = $request->email;
+        if ($request->has('contact_number')) {
+            $user->contact_number = $request->contact_number;
         }
 
-        if ($request->has('password')) {
-            $user->password = Hash::make($request->password);
+        if ($request->has('address')) {
+            $user->address = $request->address;
+        }
+
+        if ($request->hasFile('profile_image')) {
+            $imagePath = $request->file('profile_image')->store('users', 'public');
+            $user->profile_image = $imagePath;
         }
 
         $user->save();
