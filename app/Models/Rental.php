@@ -1,40 +1,58 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Enums\RentalStatus;
 
 class Rental extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'tournament_id',
         'team_name',
         'coach_name',
         'field_number',
         'items',
         'bundles',
+        'instructions',
+        'drop_off_time',
+        'promo_code',
+        'insurance_option',
+        'damage_waiver',
         'rental_date',
-        'status',
         'delivery_assigned_to',
-        'photo_url',
+        'payment_method',
         'payment_status',
+        'total_amount',
+        'status',
     ];
 
     protected $casts = [
         'items' => 'array',
         'bundles' => 'array',
         'rental_date' => 'date',
-        'status' => RentalStatus::class,
-        'payment_status' => 'string',
+        'drop_off_time' => 'datetime',
+        'damage_waiver' => 'boolean',
+        'total_amount' => 'decimal:2',
     ];
 
     public function tournament()
     {
         return $this->belongsTo(Tournament::class);
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(RentalPhoto::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

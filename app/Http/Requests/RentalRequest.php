@@ -1,9 +1,9 @@
 <?php
 
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Enums\RentalStatus;
 
 class RentalRequest extends FormRequest
 {
@@ -15,6 +15,7 @@ class RentalRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id' => 'required|exists:users,id',
             'tournament_id' => 'required|exists:tournaments,id',
             'team_name' => 'required|string|max:255',
             'coach_name' => 'required|string|max:255',
@@ -24,11 +25,17 @@ class RentalRequest extends FormRequest
             'items.*.quantity' => 'required|integer|min:1',
             'bundles' => 'nullable|array',
             'bundles.*' => 'exists:bundles,id',
+            'instructions' => 'nullable|string',
+            'drop_off_time' => 'nullable|date_format:Y-m-d H:i:s',
+            'promo_code' => 'nullable|string|max:50',
+            'insurance_option' => 'nullable|in:3,7,none',
+            'damage_waiver' => 'nullable|boolean',
             'rental_date' => 'required|date',
-            'status' => 'nullable|in:' . implode(',', array_column(RentalStatus::cases(), 'value')),
             'delivery_assigned_to' => 'nullable|string',
-            'photo_url' => 'nullable|string|url',
+            'payment_method' => 'nullable|in:stripe,apple_pay,google_pay',
             'payment_status' => 'nullable|in:pending,completed',
+            'total_amount' => 'nullable|numeric|min:0',
+            'status' => 'nullable|in:pending,delivered,picked_up,returned',
         ];
     }
 }

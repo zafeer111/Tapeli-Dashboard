@@ -8,6 +8,7 @@ use App\Http\Resources\RentalResource;
 use App\Repositories\RentalRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Rental;
 use Exception;
 
 class RentalController extends Controller
@@ -25,12 +26,22 @@ class RentalController extends Controller
         return RentalResource::collection($rentals);
     }
 
+    public function userRentals()
+    {
+        $user = auth()->user();
+        $rentals = Rental::where('user_id', $user->id)->with('tournament')->orderBy('created_at', 'desc')->get();
+        return RentalResource::collection($rentals);
+    }
+
+
     public function store(RentalRequest $request)
     {
         try {
             $user = $request->user();
-            if ($user && $user->hasPermissionTo(Permission::USER->value)) {
-                $rental = $this->rentalRepository->create($request->validated());
+            if ($user && $user->hasRole(['user', 'super_admin'])) {
+                $data = $request->validated();
+                $data['user_id'] = $user->id;
+                $rental = $this->rentalRepository->create($data);
                 return new RentalResource($rental);
             }
             throw new Exception('Unauthorized');
@@ -43,9 +54,12 @@ class RentalController extends Controller
     {
         try {
             $user = $request->user();
-            if ($user && ($user->hasPermissionTo(Permission::SUPER_ADMIN->value) ||
-                $user->hasPermissionTo(Permission::MANAGER->value))) {
-                $rental = $this->rentalRepository->update($id, $request->validated());
+            if ($user && $user->hasRole(['user', 'super_admin'])) {
+                $data = $request->validated();
+                if (!isset($data['user_id'])) {
+                    $data['user_id'] = $user->id;
+                }
+                $rental = $this->rentalRepository->update($id, $data);
                 return new RentalResource($rental);
             }
             throw new Exception('Unauthorized');
@@ -58,8 +72,7 @@ class RentalController extends Controller
     {
         try {
             $user = $request->user();
-            if ($user && ($user->hasPermissionTo(Permission::SUPER_ADMIN->value) ||
-                $user->hasPermissionTo(Permission::MANAGER->value))) {
+            if ($user && $user->hasRole('super_admin')) {
                 $this->rentalRepository->delete($id);
                 return response()->json(['message' => 'Rental deleted successfully'], 200);
             }
