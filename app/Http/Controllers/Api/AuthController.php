@@ -15,11 +15,21 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use App\Models\PasswordResetToken;
+use App\Models\ReferralCode;
+use App\Services\ReferralService;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
+
+    protected $referralService;
+
+    public function __construct(ReferralService $referralService)
+    {
+        $this->referralService = $referralService;
+    }
+
     public function register(RegisterRequest $request)
     {
         $user = User::create([
@@ -31,6 +41,13 @@ class AuthController extends Controller
 
         $user->assignRole(Role::USER->value);
 
+        $referralCode = $request->input('referral_code');
+        if ($referralCode) {
+            $this->referralService->trackReferral($referralCode, $user->id);
+        }
+
+        $generatedCode = $this->referralService->generateCode($user->id);
+
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -39,10 +56,32 @@ class AuthController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                'referral_code' => $user->referral_code,
             ],
             'token' => $token,
         ], 201);
+    }
+
+    public function getReferralCode(Request $request)
+    {
+        $user = $request->user();
+        $code = ReferralCode::where('user_id', $user->id)->latest()->value('code');
+        return response()->json(['referral_code' => $code ?: $this->referralService->generateCode($user->id)]);
+    }
+
+    public function checkReferralCode(Request $request)
+    {
+        $request->validate([
+            'referral_code' => 'required|string',
+        ]);
+
+        $referralCode = $request->input('referral_code');
+        $referral = ReferralCode::where('code', $referralCode)->first();
+
+        if ($referral) {
+            return response()->json(['message' => 'Referral code is valid', 'is_valid' => true], 200);
+        }
+
+        return response()->json(['message' => 'Invalid referral code', 'is_valid' => false], 400);
     }
 
     public function login(LoginRequest $request)
