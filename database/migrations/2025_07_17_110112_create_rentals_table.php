@@ -30,7 +30,8 @@ return new class extends Migration
             $table->string('payment_method')->nullable(); // stripe, apple_pay, google_pay
             $table->string('payment_status')->default('pending');
             $table->decimal('total_amount', 10, 2)->nullable();
-            $table->string('status')->default('pending'); // Using string instead of enum
+            $table->string('status')->default('pending');
+            $table->text('return_instruction')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

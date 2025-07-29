@@ -51,6 +51,7 @@ class RentalRepository implements RentalRepositoryInterface
                 'payment_status' => $data['payment_status'] ?? 'pending',
                 'total_amount' => $data['total_amount'] ?? null,
                 'status' => $data['status'] ?? 'pending',
+                'return_instruction' => $data['return_instruction'] ?? null,
             ]);
         });
     }
@@ -78,6 +79,7 @@ class RentalRepository implements RentalRepositoryInterface
                 'payment_status' => $data['payment_status'] ?? $rental->payment_status,
                 'total_amount' => $data['total_amount'] ?? $rental->total_amount,
                 'status' => $data['status'] ?? $rental->status,
+                'return_instruction' => $data['return_instruction'] ?? $rental->return_instruction,
             ]);
             return $rental;
         });

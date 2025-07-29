@@ -36,6 +36,7 @@ class RentalRequest extends FormRequest
             'payment_status' => 'nullable|in:pending,completed',
             'total_amount' => 'nullable|numeric|min:0',
             'status' => 'nullable|in:pending,delivered,picked_up,returned',
+            'return_instruction' => 'nullable|string',
         ];
     }
 }

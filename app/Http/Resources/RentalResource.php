@@ -30,7 +30,9 @@ class RentalResource extends JsonResource
             'payment_status' => $this->payment_status,
             'total_amount' => $this->total_amount,
             'status' => $this->status,
+            'return_instruction' => $this->return_instruction,
             'photos' => $this->whenLoaded('photos', fn() => $this->photos->pluck('photo_path')),
+            'reviews' => $this->whenLoaded('reviews', fn() => RentalReviewResource::collection($this->reviews)),
         ];
     }
 }

@@ -30,6 +30,7 @@ class Rental extends Model
         'payment_status',
         'total_amount',
         'status',
+        'return_instruction',
     ];
 
     protected $casts = [
@@ -54,5 +55,10 @@ class Rental extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    
+    public function reviews()
+    {
+        return $this->hasMany(RentalReview::class);
     }
 }
