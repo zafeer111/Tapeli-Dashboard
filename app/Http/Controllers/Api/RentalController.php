@@ -8,16 +8,19 @@ use App\Http\Resources\RentalResource;
 use App\Repositories\RentalRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\ReferralService;
 use App\Models\Rental;
 use Exception;
 
 class RentalController extends Controller
 {
     protected $rentalRepository;
+    protected $referralService;
 
-    public function __construct(RentalRepositoryInterface $rentalRepository)
+    public function __construct(RentalRepositoryInterface $rentalRepository, ReferralService $referralService)
     {
         $this->rentalRepository = $rentalRepository;
+        $this->referralService = $referralService;
     }
 
     public function index()
@@ -41,6 +44,10 @@ class RentalController extends Controller
             if ($user && $user->hasRole(['user', 'super_admin'])) {
                 $data = $request->validated();
                 $data['user_id'] = $user->id;
+
+                // Apply discount if eligible
+                // $this->referralService->applyDiscount($user->id, $data);
+
                 $rental = $this->rentalRepository->create($data);
                 return new RentalResource($rental);
             }

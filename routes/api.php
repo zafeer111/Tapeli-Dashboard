@@ -32,8 +32,12 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/password/reset', [AuthController::class, 'passwordResetRequest']);
 Route::post('/password/reset/confirm', [AuthController::class, 'passwordResetConfirm']);
 
+
+Route::post('/validate/referral-code', [AuthController::class, 'checkReferralCode']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
+    Route::get('/user/referral-code', [AuthController::class, 'getReferralCode']);
 
 
     Route::put('/profile', [ProfileController::class, 'update']);
