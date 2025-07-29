@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
@@ -27,8 +28,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->input('password')),
             'address' => $request->input('address') ?? null,
         ]);
-        $user->referral_code = strtoupper('GDV' . Str::random(4));
-        $user->save();
+
+        $user->assignRole(Role::USER->value);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -248,7 +249,7 @@ class AuthController extends Controller
                     'password' => Hash::make(Str::random(20)),
                 ]
             );
-            
+
             $user->referral_code = strtoupper('GDV' . Str::random(4));
             $user->save();
 
